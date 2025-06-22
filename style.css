@@ -1,0 +1,71 @@
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+	-webkit-appearance:none;
+}
+
+.main {
+    margin: 60px;
+    background-color: #FFFFFF;
+}
+
+.input-search{
+    font-size: 48px;
+    width: 500px;
+    height: 80px;
+    padding: 10px;
+}
+
+.search-list {
+    padding: 0;
+    margin: 0;
+}
+
+.repo {
+    box-sizing: border-box;
+    list-style: none;
+    width: 500px;
+    height: 150px;
+    border: 1px #000000, solid;
+    font-size: 20px;
+    background-color: #FFE0E0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+
+li {
+    box-sizing: border-box;
+    list-style: none;
+    width: 500px;
+    height: 60px;
+    border: 1px #000000, solid;
+    font-size: 32px;
+    background-color: #F1F1F1;
+    cursor: pointer;
+    padding: 10px;
+
+    &:hover{
+        background-color: #AFE7FF;
+    }
+}
+
+h5 {
+    margin: 10px;
+    margin-left: 5px;
+}
+
+p {
+    margin: 5px;
+}
+
+button {
+    margin: 5px;
+    background-color: #FF9292;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
