@@ -3,39 +3,60 @@ const search = document.querySelector('.input-search');
 const repositories = document.querySelector('.repositories');
 
 let currentResult = [];
+API_URL = 'https://api.github.com/search/repositories?q=';
 
-const searchRequest = function () {
+const clearList = () => {
+    list.innerHTML = '';
+    list.setAttribute('hidden', '');
+}
+
+const showList = () => {
+    list.removeAttribute('hidden');
+}
+
+const createListItem = (repo) => {
+    const item = document.createElement('li');
+    item.textContent = repo.name;
+    item.addEventListener('click', () => {
+        addRepo(repo);
+        search.value ='';
+        clearList();
+    })
+    return item;
+}
+
+async function searchRequest() {
     let request = search.value.trim();
 
-    if (request === '') {
-        list.innerHTML = '';
-        list.setAttribute('hidden', '');
+    if (!request) {
+        clearList();
         return;
     }
 
-    fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(request)}&per_page=5`)
-        .then(response => response.json())
-        .then(data => {
-            currentResult = data.items;
-            list.innerHTML = '';
+    try {
 
-            currentResult.forEach(repo => {
-                const item = document.createElement('li');
-                item.textContent = repo.name;
+        response = await fetch(`${API_URL}${encodeURIComponent(request)}&per_page=5`)
+        const data = await response.json();
+        currentResult = data.items || [];
 
-                list.appendChild(item);
+        clearList();
 
-                item.addEventListener('click', () => {
-                    addRepo(repo);
-                    search.value = '';
-                    list.innerHTML = '';
-                    list.setAttribute('hidden', '');
-                });
-            });
+        currentResult.forEach(repo => {
+            const item = createListItem(repo);
+            list.appendChild(item);
+        })
 
-            list.removeAttribute('hidden');
-        });
-};
+        if(currentResult.length > 0) {
+            showList();
+        }
+    }
+    catch(error) {
+        console.error('Ошибка при получении данных:', error);
+        clearList();
+    }
+}
+
+
 
 const addRepo = function (repo) {
     const div = document.createElement('div');
@@ -67,10 +88,3 @@ const debounce = function(callback, ms) {
 };
 
 search.addEventListener('input', debounce(searchRequest, 700));
-
-
-
-
-
-
-
